@@ -200,5 +200,6 @@
 <g:if test="${!grailsApplication.config.useDownloadPlugin?.toBoolean()}">
     <g:render template="download"/>
 </g:if>
+
 </body>
 </html>
