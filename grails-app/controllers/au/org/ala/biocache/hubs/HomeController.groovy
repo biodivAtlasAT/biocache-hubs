@@ -60,10 +60,20 @@ class HomeController {
                 }
                 def sorted = translRes.sort({m1, m2 -> m1.value <=> m2.value})
                 model.put(fn, sorted)
-            }
-            else {
-                model.put(fn, facetsCacheService.getFacetNamesFor(fn))
-            }
+            } else
+                if (fn == "institution_name" || fn == "country"  || fn == "state") {
+                    def res = facetsCacheService.getFacetNamesFor(fn)
+                    if(res.containsKey('*')) {  // for sorting reasons!
+                        def notDefined = "~ ${res['*']}"
+                        res.put('*', notDefined)
+                    }
+                    // Replace Ö when sorting wit O, otherwise it will be at the end of the list
+                    def sorted = res.sort({m1, m2 -> m1.value.replaceFirst("Ö", "O").toLowerCase() <=> m2.value.replaceFirst("Ö", "O").toLowerCase()})
+                    model.put(fn, sorted)
+                }
+                else {
+                    model.put(fn, facetsCacheService.getFacetNamesFor(fn))
+                }
 
         }
 
