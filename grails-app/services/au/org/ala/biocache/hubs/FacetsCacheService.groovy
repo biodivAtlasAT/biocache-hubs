@@ -90,7 +90,10 @@ class FacetsCacheService {
                         if (it.fq) {
                             def values = it.fq.tokenize(":")
                             def value = StringUtils.remove(values[1], '"') // some values have surrounding quotes
-                            fields.put(value, it.label) // it.label is the display label that can be different from the Solr field value
+                            if (fieldName == "species_group")
+                                fields.put(value, it.i18nCode)
+                            else
+                                fields.put(value, it.label) // it.label is the display label that can be different from the Solr field value
                         } else {
                             fields.put(it.label, it.label)
                         }

@@ -121,13 +121,13 @@
             </div>
         </div>
     </g:if>
-    <g:if test="${request.getAttribute("cl959") && request.getAttribute("cl959").size() > 1}">
+    <g:if test="${request.getAttribute("cl10033") && request.getAttribute("cl10033").size() > 1}">
         <div class="form-group">
             <label class="col-md-2 control-label" for="lga"><g:message code="advancedsearch.table06col05.title" default="Local Govt. Area"/></label>
             <div class="col-md-6">
                 <select class="lga form-control" name="lga" id="lga">
                     <option value=""><g:message code="advancedsearch.table06col05.option.label" default="-- select local government area--"/></option>
-                    <g:each var="region" in="${request.getAttribute("cl959").sort()}">
+                    <g:each var="region" in="${request.getAttribute("cl10033").sort()}">
                         <option value="${region.key}">${region.value}</option>
                     </g:each>
                 </select>
@@ -146,20 +146,6 @@
                     </g:each>
                 </select>
 
-            </div>
-        </div>
-    </g:if>
-
-    <g:if test="${request.getAttribute("basis_of_record") && request.getAttribute("basis_of_record").size() > 1}">
-        <div class="form-group">
-            <label class="col-md-2 control-label" for="basis_of_record"><g:message code="advancedsearch.table08col01.title" default="Basis of record"/></label>
-            <div class="col-md-6">
-                <select class="basis_of_record form-control" name="basis_of_record" id="basis_of_record">
-                    <option value=""><g:message code="advancedsearch.table08col01.option.label" default="-- select a basis of record --"/></option>
-                    <g:each var="bor" in="${request.getAttribute("basis_of_record")}">
-                        <option value="${bor.key}"><g:message code="${bor.value}"/></option>
-                    </g:each>
-                </select>
             </div>
         </div>
     </g:if>
@@ -189,20 +175,6 @@
     </g:if>
 
     <div class="form-group">
-        <label class="col-md-2 control-label" for="catalogue_number"><g:message code="advancedsearch.table09col01.title" default="Catalogue Number"/></label>
-        <div class="col-md-6">
-            <input type="text" name="catalogue_number" id="catalogue_number" class="dataset form-control" placeholder="" value=""/>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-2 control-label" for="record_number"><g:message code="advancedsearch.table09col02.title" default="Record Number"/></label>
-        <div class="col-md-6">
-            <input type="text" name="record_number" id="record_number" class="dataset form-control" placeholder="" value=""/>
-        </div>
-    </div>
-
-    <div class="form-group">
         <label class="col-md-2 control-label" for="startDate"><g:message code="advancedsearch.table10col01.title" default="Begin Date"/></label>
         <div class="col-md-2 ">
             <input type="text" name="start_date" id="startDate" class="occurrence_date form-control" placeholder="" value=""/>
@@ -224,7 +196,7 @@
 
     <input type="submit" value=<g:message code="advancedsearch.button.submit" default="Search"/> class="btn btn-primary" />
     &nbsp;&nbsp;
-    <input type="reset" value="Clear all" id="clearAll" class="btn btn-default" onclick="$('input#solrQuery').val(''); $('input.clear_taxon').click(); return true;"/>
+    <input type="reset" value=<g:message code="advancedsearch.button.reset" default="Clear all"/> id="clearAll" class="btn btn-default" onclick="$('input#solrQuery').val(''); $('input.clear_taxon').click(); return true;"/>
 </form>
 <asset:script type="text/javascript">
     $(document).ready(function() {

@@ -15,7 +15,12 @@
 
 package au.org.ala.biocache.hubs
 
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder;
+
+
 class HomeController {
+    MessageSource messageSource
 
     def facetsCacheService
 
@@ -44,7 +49,22 @@ class HomeController {
 
         facetsCacheService.facetsList.each { fn ->
             log.debug "Getting facet: ${fn}"
-            model.put(fn, facetsCacheService.getFacetNamesFor(fn))
+
+            if(fn == "species_group") {
+                def res = facetsCacheService.getFacetNamesFor(fn)
+                Map translRes = [:]
+                res.each { it ->
+                    def i18nCode = it.value
+                    def translation = messageSource.getMessage("advancedsearch.${i18nCode}",null, i18nCode, LocaleContextHolder.getLocale())
+                    translRes.put(it.key, translation)
+                }
+                def sorted = translRes.sort({m1, m2 -> m1.value <=> m2.value})
+                model.put(fn, sorted)
+            }
+            else {
+                model.put(fn, facetsCacheService.getFacetNamesFor(fn))
+            }
+
         }
 
         model
