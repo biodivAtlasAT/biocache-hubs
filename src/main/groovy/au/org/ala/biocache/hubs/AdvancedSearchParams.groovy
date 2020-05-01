@@ -38,6 +38,7 @@ class AdvancedSearchParams implements Validateable {
     String species_group = ""
     String institution_collection = ""
     String dataset = ""
+    String data_resource = ""
     String state = ""
     String country = ""
     String ibra = ""
@@ -96,6 +97,7 @@ class AdvancedSearchParams implements Validateable {
         if (places) queryItems.add("places:" + quoteText(places.trim()))
         if (type_status) queryItems.add("type_status:" + type_status)
         if (dataset) queryItems.add("data_resource_uid:" + dataset)
+        if (data_resource) queryItems.add("data_resource:" + quoteText(data_resource))
         if (type_material) queryItems.add("type_status:" + "*")
         if (basis_of_record) queryItems.add("basis_of_record:" + basis_of_record)
         if (catalogue_number) queryItems.add("catalogue_number:" + quoteText(catalogue_number))

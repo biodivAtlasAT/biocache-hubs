@@ -89,6 +89,11 @@ class FacetsCacheService {
                     fq.fieldResult.each {
                         if (it.fq) {
                             def values = it.fq.tokenize(":")
+                            if(fieldName == "data_resource") {
+                                // may contain ":" in the string and thus leads to a spltting problem with tokenizing
+                                def myVal = it.fq
+                                values = myVal.split(":", 2)
+                            }
                             def value = StringUtils.remove(values[1], '"') // some values have surrounding quotes
                             if (fieldName == "species_group")
                                 fields.put(value, it.i18nCode)

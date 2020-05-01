@@ -145,6 +145,21 @@
         </div>
     </g:if>
 
+    <g:if test="${request.getAttribute("data_resource") && request.getAttribute("data_resource").size() > 1}">
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="data_resource"><g:message code="advancedsearch.dataset.col.label" default="dataset name"/></label>
+            <div class="col-md-6">
+                <select class="data_resource form-control" name="data_resource" id="data_resource">
+                    <option value=""><g:message code="advancedsearch.dataset.select.default" default="-- select a dataset --"/></option>
+                    <g:each var="type" in="${request.getAttribute("data_resource").sort({it.value})}">
+                        <option value="${type.key}">${type.value}</option>
+                    </g:each>
+                </select>
+
+            </div>
+        </div>
+    </g:if>
+
     <g:if test="${request.getAttribute("data_resource_uid") && request.getAttribute("data_resource_uid").size() > 1}">
         <div class="form-group">
             %{--for="dataset"--}%

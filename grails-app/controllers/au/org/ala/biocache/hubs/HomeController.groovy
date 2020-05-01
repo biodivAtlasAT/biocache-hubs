@@ -63,12 +63,12 @@ class HomeController {
             } else
                 if (fn == "institution_name" || fn == "country"  || fn == "state") {
                     def res = facetsCacheService.getFacetNamesFor(fn)
-                    if(res.containsKey('*')) {  // for sorting reasons!
+                    if(res?.containsKey('*') && res['*'].substring(0,1) != '~') {  // for sorting reasons!
                         def notDefined = "~ ${res['*']}"
                         res.put('*', notDefined)
                     }
                     // Replace Ö when sorting wit O, otherwise it will be at the end of the list
-                    def sorted = res.sort({m1, m2 -> m1.value.replaceFirst("Ö", "O").toLowerCase() <=> m2.value.replaceFirst("Ö", "O").toLowerCase()})
+                    def sorted = res?.sort({m1, m2 -> m1.value.replaceFirst("Ö", "O").toLowerCase() <=> m2.value.replaceFirst("Ö", "O").toLowerCase()})
                     model.put(fn, sorted)
                 }
                 else {
