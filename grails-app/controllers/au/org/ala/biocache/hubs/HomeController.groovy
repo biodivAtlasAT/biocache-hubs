@@ -61,9 +61,11 @@ class HomeController {
                 def sorted = translRes.sort({m1, m2 -> m1.value <=> m2.value})
                 model.put(fn, sorted)
             } else
-                if (fn == "institution_name" || fn == "country"  || fn == "state") {
+                if (fn == "institution_name" || fn == "country"  || fn == "state" || fn == grailsApplication.config?.biocache.advancedSearch.lga.layer) {
                     def res = facetsCacheService.getFacetNamesFor(fn)
-                    if(res?.containsKey('*') && res['*'].substring(0,1) != '~') {  // for sorting reasons!
+                    if(res?.containsKey('*')) { // for sorting and translational reasons for "Not supplied"!
+                        res.put('*', messageSource.getMessage("advancedsearch.notSupplied",null, 'not supplied', LocaleContextHolder.getLocale()))
+                        log.debug "${res['*']}"
                         def notDefined = "~ ${res['*']}"
                         res.put('*', notDefined)
                     }

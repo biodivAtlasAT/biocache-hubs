@@ -20,7 +20,7 @@ import org.apache.commons.httpclient.URIException
 import org.apache.commons.httpclient.util.URIUtil
 import org.apache.commons.lang.StringUtils
 import org.grails.web.util.WebUtils
-
+import grails.util.Holders
 /**
  * Request parameters for the advanced search form (form backing bean)
  *
@@ -83,6 +83,7 @@ class AdvancedSearchParams implements Validateable {
      */
     @Override
     public String toString() {
+        def grailsApplication = Holders.grailsApplication
         List queryItems = []
         // build up q from the simple fields first...
         if (text) queryItems.add("text:" + text)
@@ -93,7 +94,10 @@ class AdvancedSearchParams implements Validateable {
         if (ibra) queryItems.add("cl1048:" + quoteText(ibra))
         if (imcra) queryItems.add("cl21:" + quoteText(imcra))
         if (imcra_meso) queryItems.add("cl966:" + quoteText(imcra_meso))
-        if (lga) queryItems.add("cl959:" + quoteText(lga))
+        if (grailsApplication.config?.biocache.advancedSearch.lga.layer) {
+            def lgaLayer = grailsApplication.config.biocache.advancedSearch.lga.layer
+            if (lga) queryItems.add("${lgaLayer}:" + quoteText(lga))
+        }
         if (places) queryItems.add("places:" + quoteText(places.trim()))
         if (type_status) queryItems.add("type_status:" + type_status)
         if (dataset) queryItems.add("data_resource_uid:" + dataset)

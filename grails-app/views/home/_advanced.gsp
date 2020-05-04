@@ -107,13 +107,13 @@
             </div>
         </div>
     </g:if>
-    <g:if test="${request.getAttribute("cl10033") && request.getAttribute("cl10033").size() > 1}">
+    <g:if test="${request.getAttribute("cl10060") && request.getAttribute("cl10060").size() > 1}">
         <div class="form-group">
             <label class="col-md-2 control-label" for="lga"><g:message code="advancedsearch.table06col05.title" default="Local Govt. Area"/></label>
             <div class="col-md-6">
                 <select class="lga form-control" name="lga" id="lga">
                     <option value=""><g:message code="advancedsearch.table06col05.option.label" default="-- select local government area--"/></option>
-                    <g:each var="region" in="${request.getAttribute("cl10033").sort()}">
+                    <g:each var="region" in="${request.getAttribute("cl10060")}">
                         <option value="${region.key}">${region.value}</option>
                     </g:each>
                 </select>
