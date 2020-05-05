@@ -61,7 +61,18 @@
             geocodeRegion: "${grailsApplication.config.geocode.region}",
             hasGoogleKey: ${grailsApplication.config.google.apikey as Boolean},
             removeFqs: '',
-            mapIconUrlPath: "${assetPath(src:'/leaflet/images')}"
+            mapIconUrlPath: "${assetPath(src:'/leaflet/images')}",
+            i18n_filterAll: '<g:message code="eya.searchform.i18n_filterAll" default="View all records"/>',
+            i18n_filterSelected:'<g:message code="eya.searchform.i18n_filterSelected" default="View selected records"/>',
+            i18n_noSpeciesFound:'<g:message code="eya.searchform.i18n_noSpeciesFound" default="no species found"/>',
+            i18n_linkTitle: '<g:message code="eya.searchform.i18n_linkTitle" default="display on map"/>',
+            i18n_infoTitle: '<g:message code="eya.searchform.i18n_infoTitle" deafult="view species page" />',
+            i18n_recsTitle: '<g:message code="eya.searchform.i18n_recsTitle" default="view list of records" />',
+            i18n_speciesProfile: '<g:message code="eya.searchform.i18n_speciesProfile" default="species profile" />',
+            i18n_listOfRecords: '<g:message code="eya.searchform.i18n_listOfRecords" default="Occurence records" />',
+            i18n_showMoreSpecies: '<g:message code="eya.searchform.i18n_showMoreSpecies" default="Show more species" />',
+            i18n_useMyLocation: '<g:message code="eya.searchform.i18n_useMyLocation" default="Use my location" />',
+            i18n_markerLocation: '<g:message code="eya.i18n_markerLocation" default="Location" />',
         }
 
         //make the taxa and rank global variable so that they can be used in the download
@@ -92,7 +103,7 @@
                 <div class="input-group">
                     <input type="text" name="address" id="address" class="form-control">
                     <span class="input-group-btn">
-                        <input id="locationSearch" type="submit" class="btn btn-default" value="<g:message code="eya.searchform.btn01" default="Search"/>"/>
+                        <input id="locationSearch" type="submit" class="btn btn-default" style="font-weight:bold;text-shadow:none;padding-left:22px; padding-top:6px; padding-bottom:6px" value="<g:message code="eya.searchform.btn01" default="Search"/>"/>
                     </span>
                 </div><!-- /input-group -->
             </div><!-- /.col-md-5 -->
@@ -109,15 +120,14 @@
             <div class="col-md-12">
                 <span class="pad">
                     <g:message code="eya.searchformradius.label01" default="Display records in a"/>
-                    <select id="radius" name="radius" class="" style="height:24px;width:auto;line-height:18px;margin-bottom:0;">
+                    <select id="radius" name="radius" class="" style="height:24px;width:auto;line-height:18px;margin-bottom:0;padding:0px">
                         <option value="1" <g:if test="${radius == 1}">selected</g:if>>1</option>
                         <option value="5" <g:if test="${radius == 5}">selected</g:if>>5</option>
                         <option value="10" <g:if test="${radius == 10}">selected</g:if>>10</option>
                     </select> <g:message code="eya.searchformradius.label02" default="km radius"/>
                 </span>
                 <span class="pad">
-                    <a href="#" id="viewAllRecords" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;<g:message code="eya.searchform.a.viewallrecords.01" default="View"/>
-                        <span id="recordsGroupText"><g:message code="eya.searchform.a.viewallrecords.02" default="all"/></span>  <g:message code="eya.searchform.a.viewallrecords.03" default="records"/></a>
+                    <a href="#" id="viewAllRecords" class="btn btn-sm btn-default"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;<span id="recordsGroupText"><g:message code="eya.searchform.a.viewallrecords.01" default="all"/></span> </a>
                 </span>
                 <span class="pad">
                     <g:if test="${grailsApplication.config.useDownloadPlugin?.toBoolean()}">
@@ -161,10 +171,10 @@
                     <thead class="fixedHeader">
                     <tr>
                         <th class="speciesIndex">&nbsp;&nbsp;</th>
-                        <th class="sciName"><a href="0" id="speciesSort" data-sort="taxa" title="sort by taxa"><g:message code="eya.table.02.th01" default="Species"/></a>
+                        <th class="sciName"><g:message code="eya.table.02.th01" default="Species"/>
                             <span id="sortSeparator">:</span>
-                            <a href="0" id="commonSort" data-sort="common" title="sort by common name"><g:message code="eya.table.02.th01.a" default="Common Name"/></a></th>
-                        <th class="rightCounts"><a href="0" data-sort="count" title="sort by record count"><g:message code="eya.table.02.th02" default="Records"/></a></th>
+                            <g:message code="eya.table.02.th01.a" default="Common Name"/></th>
+                        <th class="rightCounts"><g:message code="eya.table.02.th02" default="Records"/></th>
                     </tr>
                     </thead>
                     <tbody class="scrollContent">

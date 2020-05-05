@@ -19,6 +19,7 @@ class MessageSourceCacheService {
         }
 
         def messagesMap = messageSource.listMessageCodes(locale)
+        //log.debug "locale: ${locale}"
         //log.debug "messagesMap size = ${messagesMap.size()}"
         //log.debug "test: search.facets.heading = ${messageSource.getMessage('search.facets.heading',null, locale)}"
 

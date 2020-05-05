@@ -288,7 +288,7 @@ function loadLeafletMap() {
         // "locate me" button
         L.easyButton( '<i class="fa fa-location-arrow" data-toggle="tooltip" data-placement="right"></i>', function(e){
             attemptGeolocation();
-        },"Use my location").addTo(MAP_VAR.map);
+        },MAP_VAR.i18n_useMyLocation).addTo(MAP_VAR.map);
 
     } else {
         // map loaded already
@@ -304,8 +304,12 @@ function loadLeafletMap() {
     L.Icon.Default.imagePath = MAP_VAR.mapIconUrlPath;
 
     // Add marker
+
+    var layerName = "";
+    if(typeof i18n_markerLocation !== 'undefined') // maybe a timing problem
+        layerName = i18n_markerLocation;
     marker = L.marker(latLng, {
-        title: 'Marker Location',
+        title: layerName,
         draggable: true
     }).addTo(MAP_VAR.map);
 
@@ -380,10 +384,12 @@ function geocodePosition(pos) {
             var address = responses[0].formatted_address;
             updateMarkerAddress(address);
             // update the info window for marker icon
-            var content = '<div class="infoWindow"><b>Location:</b><br/>'+address+'</div>';
+
+            var i18n_marker = jQuery.i18n.prop("eya.i18n_marker");
+            var content = '<div class="infoWindow"><b>'+i18n_marker+':</b><br/>'+address+'</div>';
             markerInfowindow.bindPopup(content);
         } else {
-            updateMarkerAddress('Cannot determine address at this location.');
+            updateMarkerAddress(jQuery.i18n.prop('eya.i18n_markerNotFound'));
         }
     });
 }
@@ -461,7 +467,7 @@ function loadRecordsLayer(retry) {
         layers: 'ALA:occurrences',
         format: 'image/png',
         transparent: true,
-        attribution: "Atlas of Living Australia",
+        attribution: "Biodiversit\u00e4tsatlas \u00d6sterreich",
         bgcolor:"0x000000",
         outline:"false",
         GRIDDETAIL: 32, // 64 || 32
@@ -474,7 +480,9 @@ function loadRecordsLayer(retry) {
     // JQuery AJAX call
     //$.getJSON(alaMaprUrl, params, loadNewGeoJsonData);
     alaWmsLayer = L.tileLayer.wms(alaMapUrl, wmsParams).addTo(MAP_VAR.map);
-    MAP_VAR.layerControl.addOverlay(alaWmsLayer, 'Records');
+    var i18nLabel = jQuery.i18n.prop("eya.i18n_records");
+    MAP_VAR.layerControl.addOverlay(alaWmsLayer, i18nLabel);
+    //MAP_VAR.layerControl.addOverlay(alaWmsLayer, 'Records');
 
     alaWmsLayer.on('tileload', function(te){
         // populate points array so we can tell if data is loaded - legacy from geoJson version
@@ -617,9 +625,9 @@ function groupClicked(el) {
     $('#taxa-level-1 tbody tr').addClass("activeRow");
     // update records page link text
     if (speciesGroup == "ALL_SPECIES") {
-        $("#recordsGroupText").text("all");
+        $("#recordsGroupText").text(MAP_VAR.i18n_filterAll);
     } else {
-        $("#recordsGroupText").text("selected");
+        $("#recordsGroupText").text(MAP_VAR.i18n_filterSelected);
     }
     // load records layer on map
     //console.log('about to run: loadRecordsLayer()');
@@ -656,9 +664,9 @@ function processSpeciesJsonData(data, appendResults) {
     // process JSON data
     if (data.length > 0) {
         var lastRow = $('#rightList tbody tr').length;
-        var linkTitle = "display on map";
-        var infoTitle = "view species page";
-        var recsTitle = "view list of records";
+        var linkTitle = MAP_VAR.i18n_linkTitle; //"display on map";
+        var infoTitle = MAP_VAR.i18n_infoTitle; //"view species page";
+        var recsTitle = MAP_VAR.i18n_recsTitle; //"view list of records";
         // iterate over list of species from search
         for (i=0;i<data.length;i++) {
             // create new table row
@@ -678,13 +686,13 @@ function processSpeciesJsonData(data, appendResults) {
                 var speciesInfo = '<div class="speciesInfo">';
                 if (data[i].guid) {
                     speciesInfo = speciesInfo + '<a class="speciesPageLink" title="' + infoTitle + '" href="' + MAP_VAR.speciesPageUrl + data[i].guid +
-                        '"><img src="' + MAP_VAR.imagesUrlPrefix + '/page_white_go.png" alt="species page icon" style="margin-bottom:-3px;" class="no-rounding"/>' +
-                        ' species profile</a> | ';
+                        '"><img src="' + MAP_VAR.imagesUrlPrefix + '/page_white_go.png" alt="species page icon" style="margin-bottom:-3px;" class="no-rounding"/> ' + MAP_VAR.i18n_speciesProfile +
+                        ' </a> | ';
                 }
                 speciesInfo = speciesInfo + '<a href="' + MAP_VAR.contextPath + '/occurrences/search?q=taxon_name:%22' + encodeURIComponent(data[i].name) +
                     '%22&lat=' + $('input#latitude').val() + '&lon=' + $('input#longitude').val() + '&radius=' + $('select#radius').val() + '" title="' +
                     recsTitle + '"><img src="' + MAP_VAR.imagesUrlPrefix + '/database_go.png" ' +
-                    'alt="search list icon" style="margin-bottom:-3px;" class="no-rounding"/> list of records</a></div>';
+                    'alt="search list icon" style="margin-bottom:-3px;" class="no-rounding"/> '+MAP_VAR.i18n_listOfRecords+'</a></div>';
                 tr = tr + speciesInfo;
             }
             // add number of records
@@ -699,14 +707,14 @@ function processSpeciesJsonData(data, appendResults) {
             var newStart = $('#rightList tbody tr').length;
             var sortOrder = $("div#rightList").data("sort") ? $("div#rightList").data("sort") : "index";
             $('#rightList tbody').append('<tr id="loadMoreSpecies"><td>&nbsp;</td><td colspan="2"><a href="'+newStart+
-                '" data-sort="'+sortOrder+'">Show more species</a></td></tr>');
+                '" data-sort="'+sortOrder+'">'+MAP_VAR.i18n_showMoreSpecies+'</a></td></tr>');
         }
 
     } else if (appendResults) {
         // do nothing
     } else {
         // no spceies were found (either via paging or clicking on taxon group
-        var text = '<tr><td></td><td colspan="2">[no species found]</td></tr>';
+        var text = '<tr><td></td><td colspan="2">['+MAP_VAR.i18n_noSpeciesFound+']</td></tr>';
         $('#rightList tbody').append(text);
     }
 
@@ -825,8 +833,10 @@ function loadGroups() {
 function populateSpeciesGroups(data) {
     if (data.length > 0) {
         $("#taxa-level-0 tbody").empty(); // clear existing values
+
         $.each(data, function (i, n) {
             addGroupRow(n.name, n.speciesCount, n.level)
+            // console.log (n.name+" - "+ n.speciesCount+" - "+ n.level )
         });
 
         // Dynamically set height of #taxaDiv (to match containing div height)
@@ -843,7 +853,8 @@ function populateSpeciesGroups(data) {
         var rc = (group == speciesGroup) ? " class='activeRow'" : ""; // highlight active group
         var i18nLabel = jQuery.i18n.prop(label);
         // console.log("i18n check", label, i18nLabel);
-        var h = "<tr"+rc+" title='click to view group on map'><td class='indent"+indent+"'><a href='#' id='"+group+"' class='taxonBrowse' title='click to view group on map'>"+i18nLabel+"</a></td><td>"+count+"</td></tr>";
+        var i18n_title01 = jQuery.i18n.prop("eya.leftList.i18n_title01");
+        var h = "<tr"+rc+" title='"+i18n_title01+"'><td class='indent"+indent+"'><a href='#' id='"+group+"' class='taxonBrowse' title='"+i18n_title01+"'>"+i18nLabel+"</a></td><td style='text-align:right'>"+count+"</td></tr>";
         $("#taxa-level-0 tbody").append(h);
     }
 }
