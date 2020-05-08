@@ -3,7 +3,6 @@ package au.org.ala.biocache.hubs
 import grails.converters.JSON
 import grails.plugin.cache.CacheEvict
 import grails.plugin.cache.Cacheable
-
 import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.Method
@@ -16,6 +15,7 @@ import org.grails.web.json.JSONObject
 import org.springframework.web.client.RestClientException
 
 import javax.annotation.PostConstruct
+import groovy.json.JsonSlurper
 
 /**
  * Service to perform web service DAO operations
@@ -41,6 +41,24 @@ class WebServicesService {
     def JSONObject cachedFullTextSearch(SpatialSearchRequestParams requestParams) {
         def url = "${grailsApplication.config.biocache.baseUrl}/occurrences/search?${requestParams.getEncodedParams()}"
         getJsonElements(url)
+    }
+
+    def JSONObject cachedCollectoryInstitution(SpatialSearchRequestParams requestParams) {
+        def url = "${grailsApplication.config.collectoryService.baseUrl}/lookup/institution"
+        def res = new URL(url).text
+        def sans = "{\"result\":${res}}"
+        def jsonSlurper = new JsonSlurper()
+        JSONObject resJson = jsonSlurper.parseText(sans)
+        resJson
+    }
+
+    def JSONObject cachedCollectoryDataProvider(SpatialSearchRequestParams requestParams) {
+        def url = "${grailsApplication.config.collectoryService.baseUrl}/lookup/dataProvider"
+        def res = new URL(url).text
+        def sans = "{\"result\":${res}}"
+        def jsonSlurper = new JsonSlurper()
+        JSONObject resJson = jsonSlurper.parseText(sans)
+        resJson
     }
 
     def JSONObject getRecord(String id, Boolean hasClubView) {

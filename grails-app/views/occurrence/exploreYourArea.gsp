@@ -140,7 +140,7 @@
                            role="button"
                            data-toggle="modal"
                            class="btn btn-sm btn-default tooltips"
-                           title="Download all records OR species checklist">
+                           title="<g:message code="eya.searchform.a.downloads.title" default="Downloads"/>">
                             <i class="glyphicon glyphicon-download-alt"></i> <g:message code="eya.searchform.a.downloads" default="Downloads"/></a>
                     </g:else>
                 </span>

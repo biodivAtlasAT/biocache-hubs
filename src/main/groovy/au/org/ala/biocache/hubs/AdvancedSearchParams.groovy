@@ -31,6 +31,7 @@ import grails.util.Holders
 class AdvancedSearchParams implements Validateable {
     String text = ""
     String taxa = ""
+    String dataPartner = ""
     String[] lsid = []  // deprecated
     String[] taxonText = []
     String nameType = ""
@@ -154,6 +155,16 @@ class AdvancedSearchParams implements Validateable {
             String label = (StringUtils.startsWith(institution_collection, "in")) ? "institution_uid" : "collection_uid"
             queryItems.add(label + ":" + institution_collection)
         }
+
+        if (dataPartner) {
+            String label = ""
+            label = (StringUtils.startsWith(dataPartner, "in")) ? "institution_uid":""
+            label = (StringUtils.startsWith(dataPartner, "co")) ? "collection_uid":""
+            label = (StringUtils.startsWith(dataPartner, "dp")) ? "data_provider_uid":""
+            if (label != "")
+                queryItems.add(label + ":" + dataPartner)
+        }
+
 
         if (start_date || end_date) {
             String value = combineDates(start_date, end_date)

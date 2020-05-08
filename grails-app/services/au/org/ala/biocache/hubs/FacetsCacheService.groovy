@@ -64,6 +64,37 @@ class FacetsCacheService {
         init() //  reload config values
     }
 
+    private void loadSearchResultsForCollectory () {
+        try {
+            SpatialSearchRequestParams requestParams = new SpatialSearchRequestParams()
+            JSONObject inJson = webServicesService.cachedCollectoryInstitution(requestParams)
+            def fields = [:]
+                inJson.result.each { inst ->
+                    log.debug "Institute: = ${inst}"
+                    def entry = [:]
+                    def key = inst.institutionUid
+                    entry.put("name",inst.institutionName )
+                    entry.put("collections", inst.collections)
+                    fields.put(key, entry)
+                }
+            JSONObject dpJson = webServicesService.cachedCollectoryDataProvider(requestParams)
+            dpJson.result.each { prov ->
+                log.debug "Provider: = ${prov}"
+                def entry = [:]
+                def key = prov.uid
+                entry.put("name",prov.name )
+                entry.put("collections", [])
+                fields.put(key, entry)
+            }
+            def sorted = fields?.sort({m1, m2 -> m1.value.name.toLowerCase() <=> m2.value.name.toLowerCase()})
+            facetsMap.put("dataPartner", sorted)
+
+        } catch (RestClientException rce) {
+            log.warn "Cached facets for collectory call failed - ${rce.message}", rce
+        }
+
+
+    }
     /**
      * Do a search for all records and store facet values for the requested facet fields
      */
@@ -77,6 +108,8 @@ class FacetsCacheService {
         requestParams.setPageSize(0)
         requestParams.setFlimit(999)
         requestParams.setFacets(facetsList as String[])
+
+        loadSearchResultsForCollectory()
 
         try {
             JSONObject sr = webServicesService.cachedFullTextSearch(requestParams)

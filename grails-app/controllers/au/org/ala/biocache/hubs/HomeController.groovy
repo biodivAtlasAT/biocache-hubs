@@ -79,6 +79,14 @@ class HomeController {
 
         }
 
+        // handle DATA PARTNERS - Austria
+        def res = facetsCacheService.getFacetNamesFor("dataPartner")
+        Map translRes = [:]
+        res.each { it ->
+            translRes.put(it.key, it.value)
+        }
+        model.put("dataPartner", translRes)
+
         model
     }
 }

@@ -294,8 +294,7 @@
 
 <body>
     <div id="headingBar" class="heading-bar">
-        <h1 style="width:100%;" id="searchHeader"><g:message code="home.index.body.title"
-                                                             default="Search for records in"/> ${raw(hubDisplayName)}</h1>
+        <h1 style="width:100%;" id="searchHeader"><g:message code="home.index.body.title" default="Search for records"/></h1>
     </div>
     <g:if test="${flash.message}">
         <div class="message alert alert-info alert-dismissable">
@@ -306,7 +305,7 @@
     <div class="row" id="content">
         <div class="col-sm-12 col-md-12">
             <div class="tabbable">
-                <ul class="nav nav-tabs" id="searchTabs">
+                <ul class="nav nav-tabs" id="searchTabs" style="margin-left:0px">
                     <li><a id="t1" href="#simpleSearch" data-toggle="tab"><g:message code="home.index.navigator01"
                                                                                      default="Simple search"/></a></li>
                     <li><a id="t2" href="#advanceSearch" data-toggle="tab"><g:message code="home.index.navigator02"
@@ -329,7 +328,7 @@
                         <div class="col-sm-9 input-group">
                             <input type="text" class="form-control" name="${searchQuery}" id="taxa"/>
                             <span class="input-group-btn">
-                                <input class="form-control btn btn-primary" id="locationSearch"  type="submit"
+                                <input class="form-control btn btn-primary" id="locationSearch"  type="submit" style="font-weight:bold;text-shadow:none;padding-left:22px; padding-top:6px; padding-bottom:6px"
                                        value="${g.message(code:"home.index.simsplesearch.button", default:"Search")}"/>
                             </span>
                         </div>

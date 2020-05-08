@@ -17,7 +17,7 @@
                 <div class="modal-body">
                     <p id="termsOfUseDownload">
                         <g:message code="download.termsofusedownload.01" default="By downloading this content you are agreeing to use it in accordance with the Atlas of Living Australia"/>
-                        <a href="http://www.ala.org.au/about/terms-of-use/#TOUusingcontent"><g:message code="download.termsofusedownload.02" default="Terms of Use"/></a>
+                        <a href="https://biodiversityatlas.at/nutzungsbedingungen"><g:message code="download.termsofusedownload.02" default="Terms of Use"/></a>
                         <g:message code="download.termsofusedownload.03" default="and any Data Provider Terms associated with the data download."/>
                         <br/><br/>
                         <g:message code="download.termsofusedownload.04" default="Please provide the following details before downloading (* required)"/>:
@@ -35,7 +35,7 @@
                         <select name="reasonTypeId" id="reasonTypeId" class="form-control">
                             <option value="">-- <g:message code="download.downloadformreasontypeid.option" default="select a reason"/> --</option>
                             <g:each var="it" in="${alatag.getLoggerReasons()}">
-                                <option value="${it.id}">${it.name}</option>
+                                <option value="${it.id}"><g:message code="${it.rkey}" default="${it.name}"/></option>
                             </g:each>
                         </select>
                     </div>
@@ -56,7 +56,7 @@
                     </div>
 
                     <div>
-                        <input type="submit" value="<g:message code="download.downloadform.button.submit" default="Start Download"/>" id="downloadStart" class="row btn-default tooltips"/>
+                        <input type="submit" style="font-weight:bold;text-shadow:none;padding-left:22px; padding-top:6px; padding-bottom:6px" value="<g:message code="download.downloadform.button.submit" default="Start Download"/>" id="downloadStart" class="row btn-default tooltips"/>
                     </div>
                     <div id="statusMsg" style="text-align: center; font-weight: bold; "></div>
                     <input type="hidden" name="searchParams" id="searchParams" value="${sr?.urlParameters}"/>
@@ -138,7 +138,7 @@
     }
 
     function notifyDownloadStarted() {
-        $("#statusMsg").html("Download has commenced");
+        $("#statusMsg").html("Download .......");
         window.setTimeout(function() {
             $("#statusMsg").html("");
             $('#download').modal('hide');
@@ -154,7 +154,8 @@
         } else {
             $("#reasonTypeId").focus();
             $("label[for='reasonTypeId']").css("color","red");
-            alert("Please select a \"download reason\" from the drop-down list");
+            alert('<g:message code="download.downloadform.missingReason" default="Please select a \'download reason\' from the drop-down list"/>');
+
         }
 
         return isValid;

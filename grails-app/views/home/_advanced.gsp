@@ -4,7 +4,7 @@
     <input type="text" id="solrQuery" name="q" style="position:absolute;left:-9999px;" value="${params.q}"/>
     <input type="hidden" name="nameType" value="${grailsApplication.config.advancedTaxaField?:'matched_name_children'}"/>
 
-    <h4 class="margin-bottom-half-1"><g:message code="advancedsearch.title01" default="Find records that have"/></h4>
+    <h4 class="margin-bottom-half-1" style="font-size: 18px;margin-top: 10px;margin-bottom: 10px;font-weight: bold;"><g:message code="advancedsearch.title01"  default="Find records that have"/></h4>
     <div class="form-group">
         <label class="col-md-2 control-label" for="text"><g:message code="advancedsearch.table01col01.title" default="ALL of these words (full text)"/></label>
         <div class="col-md-6">
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <h4 class="margin-bottom-half-1"><g:message code="advancedsearch.title02" default="Find records for ANY of the following taxa (matched/processed taxon concepts)"/></h4>
+    <h4 class="margin-bottom-half-1" style="font-size: 18px;margin-top: 10px;margin-bottom: 10px;font-weight: bold;"><g:message code="advancedsearch.title02" default="Find records for ANY of the following taxa (matched/processed taxon concepts)"/></h4>
     <g:each in="${1..4}" var="i">
         <g:set var="lsidParam" value="lsid_${i}"/>
         <div class="form-group" id="taxon_row_${i}">
@@ -24,7 +24,7 @@
         </div>
     </g:each>
 
-    <h4 class="margin-bottom-half-1"><g:message code="advancedsearch.allfields.title" default="Find records that specify the following fields"/></h4>
+    <h4 class="margin-bottom-half-1" style="font-size: 18px;margin-top: 10px;margin-bottom: 10px;font-weight: bold;"><g:message code="advancedsearch.allfields.title" default="Find records that specify the following fields"/></h4>
     <div class="form-group">
         <label class="col-md-2 control-label" for="raw_taxon_name"><g:message code="advancedsearch.table03col01.title" default="Raw Scientific Name"/></label>
         <div class="col-md-6">
@@ -49,8 +49,18 @@
         <div class="col-md-6">
             <select class="institution_uid collection_uid form-control" name="institution_collection" id="institution_collection">
                 <option value=""><g:message code="advancedsearch.table05col01.option01.label" default="-- select an institution or collection --"/></option>
-                <g:each var="inst" in="${request.getAttribute("institution_name")}">
-                    <option value="${inst.key}">${inst.value}</option>
+                <g:each var="inst" in="${request.getAttribute("dataPartner")}">
+                    <g:set var="partner" value="${inst.value}"/>
+                    <g:set var="collections" value="${partner.collections}"/>
+                    <g:if test="${collections.size() > 0}">
+                        <option value="${inst.key}">${partner.name}</option>
+                        <g:each var="coll" in="${collections}">
+                            <option value="${coll[0]}">&nbsp;&nbsp;&nbsp;&nbsp;${coll[1]}</option>
+                        </g:each>
+                    </g:if>
+                    <g:else>
+                        <option value="${inst.key}">${partner.name}</option>
+                    </g:else>
                 </g:each>
             </select>
         </div>
@@ -107,13 +117,13 @@
             </div>
         </div>
     </g:if>
-    <g:if test="${request.getAttribute("cl10060") && request.getAttribute("cl10060").size() > 1}">
+    <g:if test="${request.getAttribute("${grailsApplication.config.biocache.advancedSearch.lga.layer}") && request.getAttribute("${grailsApplication.config.biocache.advancedSearch.lga.layer}").size() > 1}">
         <div class="form-group">
             <label class="col-md-2 control-label" for="lga"><g:message code="advancedsearch.table06col05.title" default="Local Govt. Area"/></label>
             <div class="col-md-6">
                 <select class="lga form-control" name="lga" id="lga">
                     <option value=""><g:message code="advancedsearch.table06col05.option.label" default="-- select local government area--"/></option>
-                    <g:each var="region" in="${request.getAttribute("cl10060")}">
+                    <g:each var="region" in="${request.getAttribute("${grailsApplication.config.biocache.advancedSearch.lga.layer}")}">
                         <option value="${region.key}">${region.value}</option>
                     </g:each>
                 </select>
@@ -195,9 +205,9 @@
         </div>
     </div>
 
-    <input type="submit" value=<g:message code="advancedsearch.button.submit" default="Search"/> class="btn btn-primary" />
+    <input type="submit" style="font-weight:bold;text-shadow:none;padding-left:22px; padding-top:6px; padding-bottom:6px" value=<g:message code="advancedsearch.button.submit" default="Search"/> class="btn btn-primary" />
     &nbsp;&nbsp;
-    <input type="reset" value=<g:message code="advancedsearch.button.reset" default="Clear all"/> id="clearAll" class="btn btn-default" onclick="$('input#solrQuery').val(''); $('input.clear_taxon').click(); return true;"/>
+    <input type="reset" style="font-weight:bold;text-shadow:none;padding-left:22px; padding-top:6px; padding-bottom:6px" value=<g:message code="advancedsearch.button.reset" default="Clear all"/> id="clearAll" class="btn btn-default" onclick="$('input#solrQuery').val(''); $('input.clear_taxon').click(); return true;"/>
 </form>
 <asset:script type="text/javascript">
     $(document).ready(function() {
