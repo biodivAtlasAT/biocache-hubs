@@ -21,8 +21,10 @@ import org.apache.commons.lang.StringUtils
 import org.grails.web.util.WebUtils
 import org.owasp.html.HtmlPolicyBuilder
 import org.owasp.html.PolicyFactory
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.web.servlet.support.RequestContextUtils
 import grails.util.Environment
+import org.springframework.context.MessageSource
 
 import java.util.regex.Pattern
 
@@ -36,6 +38,7 @@ class OccurrenceTagLib {
     def webServicesService
     def messageSourceCacheService
     def userService
+    MessageSource messageSource
 
     //static defaultEncodeAs = 'html'
     //static encodeAsForTags = [tagName: 'raw']
@@ -149,16 +152,30 @@ class OccurrenceTagLib {
     def currentFilterItem = { attrs ->
         def item = attrs.item
         def filterLabel = item.value.displayName.replaceFirst(/^\-/, "") // remove leading "-" for exclude searches
-        def preFix = (item.value.displayName.startsWith('-')) ? "<span class='excludeFq'>[exclude]</span> " : ""
+        String i18nExclude = alatag.message(code: "list.currentFilterItem.exclude", default: "exclude") // i18n lookup
+        def preFix = (item.value.displayName.startsWith('-')) ? "<span class='excludeFq'>[${i18nExclude}]</span> " : ""
         def fqLabel = preFix + filterLabel
         String facetKey = item.key.replaceFirst("\\(","") // remove brace
-        String i18nLabel = alatag.message(code: "facet.${facetKey}", default: "") // i18n lookup
+        def facetKeyHelp = facetKey
+        if (facetKey.startsWith("-")) // check if excluding facet
+            facetKeyHelp = facetKey.substring(1)
+        String i18nLabel = alatag.message(code: "facet.${facetKeyHelp}", default: "") // i18n lookup
 
+        String i18nFilter = item.value.value.replace('"', '')
+        // log.debug "facetKey: ${facetKey} - i18nFilter davor: ${i18nFilter} - code: ${facetKeyHelp}.${item.value.value.replace('"', '')}"
+        if (!item.value.value.startsWith('"*"'))
+            i18nFilter = alatag.message(code: "${facetKeyHelp}.${item.value.value.replace('"', '')}", default: "${item.value.value.replace('"', '')}") // i18n lookup
+
+        //String i18nLabelBiocache = messageSource.getMessage("facet.${facetKey}",null, facetKey, LocaleContextHolder.getLocale())
+
+
+        //log.debug "Facet Key: ${facetKey} - i18nLabel: ${i18nLabel} - fqLabel: ${fqLabel} - preFix: ${preFix} - i18nFilter: ${i18nFilter}"
         if (i18nLabel) {
             // replace with i18n values, if found
-            fqLabel = fqLabel.replaceAll(facetKey, i18nLabel)
+            //fqLabel = fqLabel.replaceAll(facetKey, i18nLabel)
+            fqLabel = "${preFix}${i18nLabel}:${i18nFilter}"
         }
-
+        //log.debug "fqLabel: ${fqLabel} "
         def mb = new MarkupBuilder(out)
         mb.a(   href:"#",
                 class: "${attrs.cssClass} tooltips activeFilter",
@@ -201,7 +218,10 @@ class OccurrenceTagLib {
         def facetResult = attrs.facetResult
         def queryParam = attrs.queryParam
         def mb = new MarkupBuilder(out)
-        def linkTitle = "Filter results by ${attrs.fieldDisplayName ?: facetResult.fieldName}"
+        //def linkTitle = "Filter results by ${attrs.fieldDisplayName ?: facetResult.fieldName}"
+        def filterMsg = alatag.message(code: 'facetsFilterResult' ?: 'unknown', default: 'Filter results by:')
+        //def linkTitle = "${filterMsg} ${attrs.fieldDisplayName ?: facetResult.fieldName}"
+        def linkTitle = "${filterMsg} ${attrs.fieldDisplayName ?: alatag.message(code: facetResult.fieldName ?: 'unknown', default: facetResult.fieldName)}"
 
         def addCounts = { count ->
             mb.span(class:"facetCount") {

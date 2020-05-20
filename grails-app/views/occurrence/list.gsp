@@ -8,6 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <g:set var="startPageTime" value="${System.currentTimeMillis()}"/>
 <g:set var="queryDisplay" value="${sr?.queryTitle ?: searchRequestParams?.displayString ?: ''}"/>
+<g:if test="${queryDisplay.contains("within")}">
+    <g:set var="within" value="${message(code: "list.search.display.within", default:"within")}"/>
+    <g:set var="ofPoint" value="${message(code: "list.search.display.ofPoint", default:"of point")}"/>
+    <g:set var="allRecords" value="${message(code: "list.search.display.allRecords", default:"All records")}"/>
+    <g:set var="userDefinedPolygon" value="${message(code: "list.search.display.userDefinedPolygon", default:"user defined polygon")}"/>
+
+    <g:set var="queryDisplay" value="${queryDisplay.replace("within", "${within}").replace("of point", "${ofPoint}").replace("all records", "${allRecords}").replace("user defined polygon", "${userDefinedPolygon}")}"/>
+</g:if>
 <g:set var="searchQuery" value="${grailsApplication.config.skin?.useAlaBie?.toBoolean() ? 'taxa' : 'q'}"/>
 <g:set var="authService" bean="authService"></g:set>
 <!DOCTYPE html>
@@ -19,7 +27,7 @@
 <meta name="breadcrumbParent" content="${request.contextPath ?: '/'},${message(code: "search.heading.list")}"/>
 <meta name="breadcrumb" content="${message(code: "list.search.results")}"/>
 <title><g:message code="list.title"
-                  default="Search"/>: ${sr?.queryTitle?.replaceAll("<(.|\n)*?>", '')} | <alatag:message
+                  default="Search"/>: ${queryDisplay.replaceAll("<(.|\n)*?>", '')} | <alatag:message
         code="search.heading.list" default="Search results"/> | ${grailsApplication.config.skin.orgNameLong}</title>
 
 <g:if test="${grailsApplication.config.google.apikey}">
@@ -118,7 +126,7 @@
                     <input type="text" id="taxaQuery" name="${searchQuery}" class="form-control"
                            value="${params.list(searchQuery).join(' OR ')}"/>
                     <span class="input-group-btn">
-                        <input class="form-control btn btn-default" type="submit" id="solrSubmit" value="${g.message(code:"list.advancedsearchlink.button.label", default:"Quick search")}"/>
+                        <input class="form-control btn btn-default" style="font-weight: bold;text-shadow: none;padding-left: 22px;padding-top: 6px;padding-bottom: 6px;" type="submit" id="solrSubmit" value="${g.message(code:"list.advancedsearchlink.button.label", default:"Quick search")}"/>
                     </span>
                 </div>
             </form>
@@ -277,19 +285,19 @@
                             <g:if test="${params.wkt}"><%-- WKT spatial filter   --%>
                                 <g:set var="spatialType" value="${params.wkt =~ /^\w+/}"/>
                                 <a href="${alatag.getQueryStringForWktRemove()}" class="btn tooltips btn-default btn-xs"
-                                   title="Click to remove this filter">Spatial filter: ${spatialType[0]}
+                                   title="<g:message code="list.filterRemove.title" default="Click to remove this filter"/>"><g:message code="list.spatial.filter.label" default="Spatial filter"/>: ${spatialType[0]}
                                     <span class="closeX">&times;</span>
                                 </a>
                             </g:if>
                             <g:elseif test="${params.radius && params.lat && params.lon}">
                                 <a href="${alatag.getQueryStringForRadiusRemove()}" class="btn tooltips btn-default btn-xs"
-                                   title="Click to remove this filter">Spatial filter: CIRCLE
+                                   title="<g:message code="list.filterRemove.title" default="Click to remove this filter"/>"><g:message code="list.spatial.filter.label" default="Spatial filter"/>: <g:message code="list.spatial.filter.circle" default="CIRCLE"/>
                                     <span class="closeX">&times;</span>
                                 </a>
                             </g:elseif>
                             <g:if test="${sr.activeFacetMap?.size() > 1}">
                                 <button class="btn btn-primary activeFilter btn-xs" data-facet="all"
-                                        title="Click to clear all filters"><span
+                                        title="<g:message code="list.resultsretuened.title" default="Click to clear all filters"/>"><span
                                         class="closeX">&gt;&nbsp;</span><g:message code="list.resultsretuened.button01"
                                                                                    default="Clear all"/></button>
                             </g:if>
@@ -386,7 +394,7 @@
                 </g:if>
 
                 <div class="tabbable">
-                    <ul class="nav nav-tabs" data-tabs="tabs">
+                    <ul class="nav nav-tabs" data-tabs="tabs" style="margin-left:0px">
                         <li class="active"><a id="t1" href="#recordsView" data-toggle="tab"><g:message code="list.link.t1"
                                                                                                        default="Records"/></a>
                         </li>
@@ -442,7 +450,7 @@
                                 <span class="hidden-sm"><g:message code="list.sortwidgets.span01"
                                                                       default="per"/></span><g:message
                                     code="list.sortwidgets.span02" default="page"/>:
-                                <select id="per-page" name="per-page" class="input-small">
+                                <select id="per-page" name="per-page" class="input-small" style="font-size:14px">
                                     <g:set var="pageSizeVar" value="${params.pageSize ?: params.max ?: "20"}"/>
                                     <option value="10" <g:if test="${pageSizeVar == "10"}">selected</g:if>>10</option>
                                     <option value="20" <g:if test="${pageSizeVar == "20"}">selected</g:if>>20</option>
@@ -451,7 +459,7 @@
                                 </select>&nbsp;
                             <g:set var="useDefault" value="${(!params.sort && !params.dir) ? true : false}"/>
                             <g:message code="list.sortwidgets.sort.label" default="sort"/>:
-                                <select id="sort" name="sort" class="input-small">
+                                <select id="sort" name="sort" class="input-small" style="font-size:14px">
                                     <option value="score" <g:if test="${params.sort == 'score'}">selected</g:if>><g:message
                                             code="list.sortwidgets.sort.option01" default="Best match"/></option>
                                     <option value="taxon_name"
@@ -475,7 +483,7 @@
                                             code="list.sortwidgets.sort.option07" default="Last annotated"/></option>
                                 </select>&nbsp;
                             <g:message code="list.sortwidgets.dir.label" default="order"/>:
-                                <select id="dir" name="dir" class="input-small">
+                                <select id="dir" name="dir" class="input-small" style="font-size:14px">
                                     <option value="asc" <g:if test="${params.dir == 'asc'}">selected</g:if>><g:message
                                             code="list.sortwidgets.dir.option01" default="Ascending"/></option>
                                     <option value="desc"
@@ -499,6 +507,8 @@
                         </g:if>
                         <div id="searchNavBar" class="pagination">
                             <g:paginate total="${sr.totalRecords}" max="${sr.pageSize}" offset="${sr.startIndex}"
+                                        next="${nextBtn}"
+                                        prev="${prevBtn}"
                                         omitLast="true"
                                         params="${[taxa: params.taxa, q: params.q, fq: params.fq, wkt: params.wkt, lat: params.lat, lon: params.lon, radius: params.radius]}"/>
                         </div>

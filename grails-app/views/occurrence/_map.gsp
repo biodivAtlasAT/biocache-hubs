@@ -5,13 +5,13 @@
         <g:set var='spatialPortalLink' value="${sr.urlParameters}"/>
         <g:set var='spatialPortalUrlParams' value="${grailsApplication.config.spatial.params}"/>
         <a id="spatialPortalLink" class="btn btn-default btn-sm tooltips"
-           href="${grailsApplication.config.spatial.baseUrl}${spatialPortalLink}${spatialPortalUrlParams}" title="Continue analysis in ALA Spatial Portal">
+           href="${grailsApplication.config.spatial.baseUrl}${spatialPortalLink}${spatialPortalUrlParams}" title="<g:message code="map.spatialportal.btn.title" default="Continue analysis in ALA Spatial Portal"/>">
             <i class="fa fa-map-marker"></i>&nbsp;&nbsp;<g:message code="map.spatialportal.btn.label" default="View in spatial portal"/></a>
     </g:if>
-    <a href="#downloadMap" role="button" data-toggle="modal" class="btn btn-default btn-sm tooltips" title="Download image file (single colour mode)">
+    <a href="#downloadMap" role="button" data-toggle="modal" class="btn btn-default btn-sm tooltips" title="<g:message code="map.download.btn.title" default="Download image file (single colour mode)"/>">
         <i class="fa fa-download"></i>&nbsp;&nbsp;<g:message code="map.downloadmaps.btn.label" default="Download map"/></a>
     <g:if test="${params.wkt}">
-        <a href="#downloadWKT" role="button" class="btn btn-default btn-sm tooltips" title="Download WKT file" onclick="downloadPolygon(); return false;">
+        <a href="#downloadWKT" role="button" class="btn btn-default btn-sm tooltips" title="<g:message code="map.downloadwkt.btn.title" default="Download WKT"/>" onclick="downloadPolygon(); return false;">
             <i class="glyphicon glyphicon-stop"></i>&nbsp;&nbsp;<g:message code="map.downloadwkt.btn.label" default="Download WKT"/></a>
     </g:if>
     <%-- <div id="spatialSearchFromMap" class="btn btn-default btn-small">
@@ -74,7 +74,7 @@
 
 <div id="template" style="display:none">
     <div class="colourbyTemplate">
-        <a class="colour-by-legend-toggle colour-by-control tooltips" href="#" title="Map legend - click to expand"><i class="fa fa-list-ul fa-lg"></i></a>
+        <a class="colour-by-legend-toggle colour-by-control tooltips" href="#" title="<g:message code="map.maplegend.title" default="Map legend - click to expand"/>"><i class="fa fa-list-ul fa-lg"></i></a>
         <form class="leaflet-control-layers-list">
             <div class="leaflet-control-layers-overlays">
                 <div style="overflow:auto; max-height:400px;">
@@ -107,7 +107,7 @@
         map : null,
         mappingUrl : "${mappingUrl}", // e.g. "https://biocache.ala.org.au/ws"
         query : "${searchString}", // e.g. "?q=*%3A*&lat=-34.266296&lon=145.3838&radius=154.8"
-        queryDisplayString : "${queryDisplayString}", // e.g. "[all records] - within 154.8 km of point(-34.266, 145.384)"
+        queryDisplayString : "${queryDisplay}", // e.g. "[all records] - within 154.8 km of point(-34.266, 145.384)"
         center: [-23.6,133.6],
         defaultLatitude : "${grailsApplication.config.map.defaultLatitude?:'-23.6'}",
         defaultLongitude : "${grailsApplication.config.map.defaultLongitude?:'133.6'}",
@@ -528,7 +528,7 @@
                     )
                     .append($('<span>')
                         .addClass('legendItemName')
-                        .html("All records")
+                        .html("<g:message code="map.legend.all" default="All records"/>")
                     )
                 )
         );

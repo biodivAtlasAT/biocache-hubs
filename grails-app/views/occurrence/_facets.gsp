@@ -23,7 +23,7 @@
                             <li><alatag:currentFilterItem item="${item}" addCheckBox="${true}"/></li>
                         </g:each>
                         <g:if test="${sr.activeFacetMap?.size() > 1}">
-                            <li><a href="#" class="activeFilter" data-facet="all" title="Click to clear all filters">
+                            <li><a href="#" class="activeFilter" data-facet="all" title="facets.clear.filters.title">
                                 <span class="closeX" style="margin-left:7px;">&gt;&nbsp;</span><g:message code="facets.currentfilter.link" default="Clear all"/></a>
                             </li>
                         </g:if>
@@ -54,7 +54,7 @@
                         <g:if test="${facetResult.fieldResult.length() > 1}">
                             <div class="showHide">
                                 <a href="#multipleFacets" class="multipleFacetsLink" id="multi-${facetResult.fieldName}" role="button" data-toggle="modal" data-target="#multipleFacets" data-displayname="${fieldDisplayName}"
-                                   title="See more options or refine with multiple values"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> <g:message code="facets.facetfromgroup.link" default="choose more"/>...</a>
+                                   title="<g:message code="facets.moreOptions.link" default="See more options or refine with multiple values"/>"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> <g:message code="facets.facetfromgroup.link" default="choose more"/>...</a>
                             </div>
                         </g:if>
                     </g:if>

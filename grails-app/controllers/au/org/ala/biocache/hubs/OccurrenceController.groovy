@@ -22,6 +22,8 @@ import org.grails.web.json.JSONArray
 import org.grails.web.json.JSONElement
 import org.grails.web.json.JSONObject
 import au.org.ala.web.CASRoles
+import org.springframework.context.i18n.LocaleContextHolder
+import org.springframework.context.MessageSource
 
 import java.text.SimpleDateFormat
 
@@ -31,6 +33,7 @@ import java.text.SimpleDateFormat
 @Slf4j
 class OccurrenceController {
     def webServicesService, facetsCacheService, postProcessingService, authService
+    MessageSource messageSource
 
     GeoIpService geoIpService
 
@@ -166,7 +169,9 @@ class OccurrenceController {
                     userId: authService?.getUserId(),
                     userEmail: authService?.getEmail(),
                     processingTime: (System.currentTimeMillis() - start),
-                    wsTime: wsTime
+                    wsTime: wsTime,
+                    nextBtn: messageSource.getMessage("list.pagination.next",null, 'Next', LocaleContextHolder.getLocale()),
+                    prevBtn: messageSource.getMessage("list.pagination.previous",null, 'Previous', LocaleContextHolder.getLocale()),
             ]
 
         } catch (Exception ex) {

@@ -119,10 +119,10 @@
                         drawWktObj($('#wktInput').val());
                     } catch (e) {
                         console.log(e);
-                        alert("Please paste a valid WKT string"); // TODO i18n this
+                        alert('${g.message(code:"home.index.wkt.error", default:"Please paste a valid WKT string")}');
                     }
                 } else {
-                    alert("Please paste a valid WKT string"); // TODO i18n this
+                    alert('${g.message(code:"home.index.wkt.error", default:"Please paste a valid WKT string")}'); // TODO i18n this
                 }
             });
 
