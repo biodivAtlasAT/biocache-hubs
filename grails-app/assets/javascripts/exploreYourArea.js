@@ -265,10 +265,12 @@ function loadLeafletMap() {
 
         var baseLayers = {
             "Minimal": defaultBaseLayer,
-            "Road":  new L.Google('ROADMAP'),
+            //"Road":  new L.Google('ROADMAP'),
             //"Terrain": new L.Google('TERRAIN'),
-            "Satellite": new L.Google('HYBRID')
+            //"Satellite": new L.Google('HYBRID')
         };
+        baseLayers[MAP_VAR.i18n_baseLayers_road] = new L.Google('ROADMAP');
+        baseLayers[MAP_VAR.i18n_baseLayers_satellite] = new L.Google('HYBRID');
 
         MAP_VAR.map = L.map('mapCanvas', {
             center: latLng,
@@ -480,7 +482,7 @@ function loadRecordsLayer(retry) {
     // JQuery AJAX call
     //$.getJSON(alaMaprUrl, params, loadNewGeoJsonData);
     alaWmsLayer = L.tileLayer.wms(alaMapUrl, wmsParams).addTo(MAP_VAR.map);
-    var i18nLabel = jQuery.i18n.prop("eya.i18n_records");
+    var i18nLabel = MAP_VAR.i18n_records;
     MAP_VAR.layerControl.addOverlay(alaWmsLayer, i18nLabel);
     //MAP_VAR.layerControl.addOverlay(alaWmsLayer, 'Records');
 

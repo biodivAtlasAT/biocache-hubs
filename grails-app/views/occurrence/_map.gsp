@@ -127,9 +127,9 @@
         },
         baseLayers : {
             "Minimal" : defaultBaseLayer,
-            "Road" :  new L.Google('ROADMAP'),
-            "Terrain" : new L.Google('TERRAIN'),
-            "Satellite" : new L.Google('HYBRID')
+            "<g:message code="map.baseLayers.road" default="Road"/>" :  new L.Google('ROADMAP'),
+            "<g:message code="map.baseLayers.terrain" default="Terrain"/>" : new L.Google('TERRAIN'),
+            "<g:message code="map.baseLayers.satellite" default="Satellite"/>" : new L.Google('HYBRID')
         },
         layerControl : null,
         currentLayers : [],
@@ -511,7 +511,7 @@
                 });
             }
         }
-        MAP_VAR.layerControl.addOverlay(layer, 'Occurrences');
+        MAP_VAR.layerControl.addOverlay(layer, '<g:message code="map.baseLayers.occurences" default="Occurrences"/>');
         MAP_VAR.map.addLayer(layer);
         MAP_VAR.currentLayers.push(layer);
         return true;

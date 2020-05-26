@@ -73,6 +73,9 @@
             i18n_showMoreSpecies: '<g:message code="eya.searchform.i18n_showMoreSpecies" default="Show more species" />',
             i18n_useMyLocation: '<g:message code="eya.searchform.i18n_useMyLocation" default="Use my location" />',
             i18n_markerLocation: '<g:message code="eya.i18n_markerLocation" default="Location" />',
+            i18n_records: '<g:message code="eya.i18n_records" default="Location" />',
+            i18n_baseLayers_road: '<g:message code="map.baseLayers.road" default="Road" />',
+            i18n_baseLayers_satellite: '<g:message code="map.baseLayers.satellite" default="Satellite" />',
         }
 
         //make the taxa and rank global variable so that they can be used in the download

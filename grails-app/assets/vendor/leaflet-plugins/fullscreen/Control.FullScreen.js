@@ -3,7 +3,7 @@
 L.Control.FullScreen = L.Control.extend({
 	options: {
 		position: 'topleft',
-		title: 'Full Screen',
+		title: jQuery.i18n.prop('advancedsearch.js.map.fullscreen'),
 		forceSeparateButton: false,
 		forcePseudoFullscreen: false
 	},
