@@ -306,7 +306,7 @@
                             <g:if test="${record.systemAssertions.missing}">
                                 <tr>
                                     <td colspan="2">
-                                        <a href="javascript:void(0)" id="showMissingPropResult"><g:message code="show.tabledataqualityresults.tr04td02" default="Show/Hide"/>  ${record.systemAssertions.missing.length()} missing properties</a>
+                                        <a href="javascript:void(0)" id="showMissingPropResult"><g:message code="show.tabledataqualityresults.tr04td02" default="Show/Hide"/>  ${record.systemAssertions.missing.length()} <g:message code="show.tabledataqualityresults.tr04td02.missing" default="missing properties"/></a>
                                     </td>
                                 </tr>
                             </g:if>
@@ -321,7 +321,7 @@
                             <g:if test="${record.systemAssertions.unchecked}">
                                 <tr>
                                     <td colspan="2">
-                                        <a href="javascript:void(0)" id="showUncheckedTests"><g:message code="show.tabledataqualityresults.tr06td02" default="Show/Hide"/>  ${record.systemAssertions.unchecked.length()} tests that have not been run</a>
+                                        <a href="javascript:void(0)" id="showUncheckedTests"><g:message code="show.tabledataqualityresults.tr06td02" default="Show/Hide"/>  ${record.systemAssertions.unchecked.length()} <g:message code="show.tabledataqualityresults.tr06td02.notrun" default="tests that have not been run"/></a>
                                     </td>
                                 </tr>
                             </g:if>

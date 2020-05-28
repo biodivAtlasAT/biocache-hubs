@@ -306,8 +306,10 @@ class WebServicesService {
      * @return
      */
     @Cacheable('longTermCache')
-    def String getDataQualityCsv() {
-        String url = grailsApplication.config.dataQualityChecksUrl ?: "https://docs.google.com/spreadsheet/pub?key=0AjNtzhUIIHeNdHJOYk1SYWE4dU1BMWZmb2hiTjlYQlE&single=true&gid=0&output=csv"
+    def String getDataQualityCsv(langCode) {
+        String url = "https://docs.google.com/spreadsheet/pub?key=0AjNtzhUIIHeNdHJOYk1SYWE4dU1BMWZmb2hiTjlYQlE&single=true&gid=0&output=csv"
+        if(grailsApplication.config.getProperty("dataQualityChecksUrl.${langCode}"))
+            url = grailsApplication.config.getProperty("dataQualityChecksUrl.${langCode}")
         getText(url)
     }
 

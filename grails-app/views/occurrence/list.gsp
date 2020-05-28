@@ -191,7 +191,7 @@
             <div class="col-md-3 col-sm-3">
                 <!-- Trigger the modal with a button -->
                 <a class="btn tooltips btn-default btn-sm" data-toggle="modal" data-target="#facetConfigDialog" href="#"
-                   title="Customise the contents of this column">
+                   title="<g:message code="list.filter.tooltip" default="Customise the contents of this column"/>">
                     <i class="fa fa-cog"></i>&nbsp;&nbsp;<g:message code="search.filter.customise"/>
                 </a>
 

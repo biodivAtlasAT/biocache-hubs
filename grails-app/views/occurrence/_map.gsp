@@ -808,8 +808,8 @@
                         <label for="scale_on" class="col-md-5 control-label"><g:message code="map.downloadmap.field07.label" default="Include scale"/></label>
                         <div class="col-md-6">
                             <div class="form-control" style="border: none; box-shadow: none;">
-                                <input type="radio" name="scale" value="on" id="scale_on" class="form-controlX" checked="checked"/> <g:message code="map.downloadmap.field07.option01" default="Yes"/> &nbsp;
-                                <input type="radio" name="scale" value="off" class="form-controlX" /> <g:message code="map.downloadmap.field07.option02" default="No"/>
+                                <input type="radio" name="scale" value="on" id="scale_on" class="form-controlX" disabled /> <g:message code="map.downloadmap.field07.option01" default="Yes"/> &nbsp;
+                                <input type="radio" name="scale" value="off" class="form-controlX"  checked="checked" disabled /> <g:message code="map.downloadmap.field07.option02" default="No"/>
                             </div>
                         </div>
                     </div>

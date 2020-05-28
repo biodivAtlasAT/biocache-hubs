@@ -21,6 +21,7 @@ import org.supercsv.cellprocessor.ift.CellProcessor
 import org.supercsv.io.CsvListReader
 import org.supercsv.io.ICsvListReader
 import org.supercsv.prefs.CsvPreference
+import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  * Generate codes and metadata for the data quality checks.
@@ -37,7 +38,7 @@ class DataQualityController {
 
     def allCodes() {
         Map dataQualityCodes = [:]
-        String dataQualityCsv = webServicesService.getDataQualityCsv() // cached
+        String dataQualityCsv = webServicesService.getDataQualityCsv(LocaleContextHolder.getLocale())
         ICsvListReader listReader = null
 
         try {

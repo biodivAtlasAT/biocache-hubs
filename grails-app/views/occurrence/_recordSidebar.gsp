@@ -1,4 +1,4 @@
-<g:if test="${isUnderCas && !isReadOnly && record.processed.attribution.provenance != 'Draft'}">
+<g:if test="${isUnderCas && !isReadOnly && record.processed.attribution.provenance != 'Draft' && grailsApplication.config.showAssertionButton}">
     <button class="btn btn-default" id="assertionButton" href="#loginOrFlag" role="button" data-toggle="modal" title="report a problem or suggest a correction for this record">
         <span id="loginOrFlagSpan" title="Flag an issue" class=""><i class="glyphicon glyphicon-flag"></i> <g:message code="show.button.assertionbutton.span" default="Flag an issue"/></span>
     </button>
@@ -11,7 +11,7 @@
 </g:if>
 %{--<div class="nav-affix" data-spy="affix" data-offset-top="236" data-offset-bottom="1080">--}%
 <div class="">
-    <ul id="navBox" class="nav nav-pills nav-stacked">
+    <ul id="navBox" class="nav nav-pills nav-stacked" style="margin-left:0px">
         <li><a href="#occurrenceDataset"><g:message code="recordcore.occurencedataset.title" default="Dataset"/></a></li>
         <li><a href="#occurrenceEvent"><g:message code="recordcore.occurenceevent.title" default="Event"/></a></li>
         <li><a href="#occurrenceTaxonomy"><g:message code="recordcore.occurencetaxonomy.title" default="Taxonomy"/></a></li>
@@ -171,9 +171,11 @@
 
                     var baseLayers = {
                         "Minimal": defaultBaseLayer,
-                        "Road":  new L.Google('ROADMAP'),
+                        //"Road":  new L.Google('ROADMAP'),
                         //"Terrain": new L.Google('TERRAIN'),
-                        "Satellite": new L.Google('HYBRID')
+                        //"Satellite": new L.Google('HYBRID')
+                        "<g:message code="map.baseLayers.road" default="Road"/>" :  new L.Google('ROADMAP'),
+                        "<g:message code="map.baseLayers.satellite" default="Satellite"/>" : new L.Google('HYBRID')
                     };
 
                     var latLng = L.latLng(${latLngStr.trim()});
@@ -191,7 +193,7 @@
 
                     // Add marker
                     L.marker(latLng, {
-                        title: 'Occurrence location',
+                        title: '<g:message code="map.marker.title" default="Occurrence location"/>',
                         draggable: false
                     }).addTo(map);
 

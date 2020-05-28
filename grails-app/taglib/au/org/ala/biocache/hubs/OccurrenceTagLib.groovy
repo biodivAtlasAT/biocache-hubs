@@ -453,7 +453,7 @@ class OccurrenceTagLib {
                     mb.tr() {
                         if (i == 0) {
                             td(class:"noStripe", rowspan:"${group.value.length()}") {
-                                b(group.key)
+                                b(message(code: group.key, default:group.key))
                             }
                         }
                         td(alatag.databaseFieldName(text: field.name))

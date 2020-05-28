@@ -134,13 +134,14 @@ stateConservationListPath = [:] // to prevent NPE - set in ext config
 alwaysshow.imagetab = false
 
 facets.defaultSelected = "data_resource_uid,taxon_name,year,multimedia"
+showAssertionButton = true
 
 mapdownloads {
     baseLayers {
         default_layer {
             name = 'world'
             i18nCode = 'baselayer.world'
-            displayName = 'Simple World Outline'
+            displayName = 'Welt-Ausschnitt'
         }
     }
     baseMaps {
