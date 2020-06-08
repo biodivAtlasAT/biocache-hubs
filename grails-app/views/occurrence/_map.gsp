@@ -135,7 +135,7 @@
         currentLayers : [],
         additionalFqs : '',
         zoomOutsideScopedRegion: ${(grailsApplication.config.map.zoomOutsideScopedRegion == false || grailsApplication.config.map.zoomOutsideScopedRegion == "false") ? false : true},
-        removeFqs: ''
+        removeFqs: '',
     };
 
     var ColourByControl = L.Control.extend({
@@ -221,12 +221,12 @@
                     allowIntersection: false, // Restricts shapes to simple polygons
                     drawError: {
                         color: '#e1e100', // Color the shape will turn when intersects
-                        message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+                        message: '<g:message code="advancedsearch.js.map.error" default="Ooh snap! you can\'t draw that!"/>' // Message that will show when intersect
                     },
                     shapeOptions: {
                         color: '#bada55'
                     }
-                }
+                },
             }
         });
         MAP_VAR.map.addControl(MAP_VAR.drawControl);

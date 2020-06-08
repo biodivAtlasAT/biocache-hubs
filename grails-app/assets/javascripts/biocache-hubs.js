@@ -11,6 +11,9 @@ if (typeof BC_CONF != 'undefined' && BC_CONF.hasOwnProperty('contextPath')) {
         mode: 'map',
         async: true,
         cache: true,
-        language: BC_CONF.locale // default is to use browser specified locale
+        language: BC_CONF.locale, // default is to use browser specified locale
+        callback: function() {
+            // console.log(jQuery.i18n.prop('advancedsearch.js.map.polygon'));
+        }
     });
 }
