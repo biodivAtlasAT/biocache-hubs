@@ -854,7 +854,9 @@ function populateSpeciesGroups(data) {
         if (group == "ALL_SPECIES") label = "all.species";
         var rc = (group == speciesGroup) ? " class='activeRow'" : ""; // highlight active group
         var i18nLabel = jQuery.i18n.prop(label);
-        // console.log("i18n check", label, i18nLabel);
+        //console.log("i18n check", label, i18nLabel);
+        i18nLabel =  i18nLabel.replace(/\[/g,'').replace(/\]/g,'')
+        //console.log("i18n check", label, i18nLabel);
         var i18n_title01 = jQuery.i18n.prop("eya.leftList.i18n_title01");
         var h = "<tr"+rc+" title='"+i18n_title01+"'><td class='indent"+indent+"'><a href='#' id='"+group+"' class='taxonBrowse' title='"+i18n_title01+"'>"+i18nLabel+"</a></td><td style='text-align:right'>"+count+"</td></tr>";
         $("#taxa-level-0 tbody").append(h);
