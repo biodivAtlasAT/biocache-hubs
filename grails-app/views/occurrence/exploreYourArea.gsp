@@ -134,7 +134,7 @@
                 </span>
                 <span class="pad">
                     <g:if test="${grailsApplication.config.useDownloadPlugin?.toBoolean()}">
-                        <a href="#" id="downloadData" class="btn btn-sm btn-default tooltips" title="Download records, check lists or field guides">
+                        <a href="#" id="downloadData" class="btn btn-sm btn-default tooltips" title="<g:message code='list.downloads.navigator.tooltip' default='Download records or check lists'/>">
                             <i class="glyphicon glyphicon-download-alt"></i>&nbsp;&nbsp;
                             <g:message code="list.downloads.navigator" default="Download"/></a>
                     </g:if>
