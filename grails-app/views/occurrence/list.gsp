@@ -27,7 +27,7 @@
 <meta name="breadcrumbParent" content="${request.contextPath ?: '/'},${message(code: "search.heading.list")}"/>
 <meta name="breadcrumb" content="${message(code: "list.search.results")}"/>
 <title><g:message code="list.title"
-                  default="Search"/>: ${queryDisplay.replaceAll("<(.|\n)*?>", '')} | <alatag:message
+                  default="Search"/>: <alatag:clearNameForInstitutionCollection>${queryDisplay.replaceAll("<(.|\n)*?>", '')}</alatag:clearNameForInstitutionCollection> | <alatag:message
         code="search.heading.list" default="Search results"/> | ${grailsApplication.config.skin.orgNameLong}</title>
 
 <g:if test="${grailsApplication.config.google.apikey}">
@@ -267,7 +267,12 @@
                     <span id="returnedText"><strong><g:formatNumber number="${sr.totalRecords}"
                                                                     format="#,###,###"/></strong> <g:message
                             code="list.resultsretuened.span.returnedtext" default="results for"/></span>
-                    <span class="queryDisplay"><strong>${raw(queryDisplay)}</strong></span>&nbsp;&nbsp;
+
+                    <span class="queryDisplay"><strong>
+                        <g:set var="queryToShow"><alatag:clearNameForInstitutionCollection>${raw(queryDisplay)}</alatag:clearNameForInstitutionCollection></g:set>
+                        ${raw(queryToShow) ?: params.taxa ?: params.q}
+                    </strong></span>&nbsp;&nbsp;
+
                     <g:if test="${params.taxa && queryDisplay.startsWith("text:")}">
                         %{--Fallback taxa search to "text:", so provide feedback to user about this--}%
                         (<g:message code="list.taxa.notfound" args="${[params.taxa]}" default="(Note: no matched taxon name found for {0})"/>)

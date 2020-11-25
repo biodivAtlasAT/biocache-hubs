@@ -152,8 +152,17 @@ class AdvancedSearchParams implements Validateable {
         }
 
         if (institution_collection) {
-            String label = (StringUtils.startsWith(institution_collection, "in")) ? "institution_uid" : "collection_uid"
-            queryItems.add(label + ":" + institution_collection)
+           // String label = (StringUtils.startsWith(institution_collection, "in")) ? "institution_uid" : "collection_uid"
+           // queryItems.add(label + ":" + institution_collection)
+            String label = ""
+            if (label == "")
+                label = (StringUtils.startsWith(institution_collection, "in")) ? "institution_uid":""
+            if (label == "")
+                label = (StringUtils.startsWith(institution_collection, "co")) ? "collection_uid":""
+            if (label == "")
+                label = (StringUtils.startsWith(institution_collection, "dp")) ? "data_provider_uid":""
+            if (label != "")
+                queryItems.add(label + ":" + institution_collection)
         }
 
         if (dataPartner) {
