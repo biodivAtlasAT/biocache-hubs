@@ -57,70 +57,37 @@ class OccurrenceTagLib {
         def item = ""
 
         bodyArr.eachWithIndex { val, idx ->
-            log.debug "PIECES: ${val}"
             if (val ==~ /<span>co\d+<\/span>/ || val ==~ /<span>in\d+<\/span>/ || val ==~ /<span>dp\d+<\/span>/ ||
                     val ==~ /co\d+/ || val ==~ /in\d+/ || val ==~ /dp\d+/) {
-                log.debug("YES YES YES YES YES YES YES YES YES YES YES")
                 index = idx
                 item = val.replace("<span>", "").replace("</span>", "")
             }
         }
         if (index > -1) {
-            log.debug "Folgendes Item: ${item}"
             def changed = ""
             if(item.startsWith("in") || item.startsWith("dp")) {
                 bodyArr[index] = facetsCacheService.getFacetNamesFor("dataPartner")[item]["name"]
             }
             if(item.startsWith("co")) {
                 facetsCacheService.getFacetNamesFor("dataPartner").each { key, value ->
-                    log.debug "?__?__?--------------------------${key} -- ${value}"
                     def collArr = value["collections"]
-                    log.debug "?....?...?--------------------------${collArr}"
-
-                    //[[co2, Herbarium der Universität Salzburg]]
                     collArr.each {
-                        log.debug "?::::?:::?--------------------------${it} + ${it[0]} + ${it[1]}"
                         if (item.equalsIgnoreCase(it[0]))
                             bodyArr[index]  = it[1]
                     }
                 }
-
             }
             ret = ""
             bodyArr.each {
                 ret = ret + it + " "
             }
         }
-
-
-
-/*        if(rq.startsWith("institution_uid") || rq.startsWith("data_provider_uid")) {
-            String[] str = rq.split(":")
-            log.debug "!--!--!--------------------------- ${rq}  --  ${body}"
-            log.debug "!--!--!--------------------------- ${str[0]} and ${str[1]}"
-            ret = facetsCacheService.getFacetNamesFor("dataPartner")[str[1]]["name"]
-        }
-        if(rq.startsWith("collection_uid")) {
-            String[] str = rq.split(":")
-            log.debug "!--!--!--------------------------- ${rq}  --  ${body}"
-            log.debug "!--!--!--------------------------- ${str[0]} and ${str[1]}"
-            facetsCacheService.getFacetNamesFor("dataPartner").each { key, value ->
-                log.debug "?__?__?--------------------------${key} -- ${value}"
-                def collArr = value["collections"]
-                log.debug "?....?...?--------------------------${collArr}"
-
-                //[[co2, Herbarium der Universität Salzburg]]
-                collArr.each {
-                    log.debug "?::::?:::?--------------------------${it} + ${it[0]} + ${it[1]}"
-                    if (str[1].equalsIgnoreCase(it[0]))
-                       ret = it[1]
-                }
-            }
-        }*/
         ret
     }
 
-
+    /**
+     * Exchanges the abbreviations for co.. in.. dp.. withn the real name
+     */
     def clearNameForInstitutionCollection = { attrs, body ->
         String bodyText = (String) body()
         bodyText = resolveInstitutionCollection((String) body())

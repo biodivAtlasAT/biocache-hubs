@@ -159,11 +159,11 @@
             <g:if test="${queryDisplay =~ /lsid/ && params.taxa}"><!-- ${raw(queryDisplay)} -->
                 <g:if test="${queryDisplay =~ /span/}">
                     <p><g:message code="list.02.p01" default="No records found for"/> <span
-                            class="queryDisplay">${raw(queryDisplay.replaceAll('null:', ''))}</span></p>
+                            class="queryDisplay"><alatag:clearNameForInstitutionCollection>${raw(queryDisplay.replaceAll('null:', ''))}</alatag:clearNameForInstitutionCollection></span></p>
                 </g:if>
                 <g:else>
                     <p><g:message code="list.02.p02" default="No records found for"/> <span
-                            class="queryDisplay">${params.taxa}</span></p>
+                            class="queryDisplay"><alatag:clearNameForInstitutionCollection>${params.taxa}</alatag:clearNameForInstitutionCollection></span></p>
                 </g:else>
                 <p><g:message code="list.02.p03.01" default="Trying search for"/> <a
                         href="?q=text:${params.taxa}"><g:message code="list.02.p03.02"
@@ -172,7 +172,7 @@
             </g:if>
             <g:elseif test="${queryDisplay =~ /^text:/ && queryDisplay =~ /\s+/ && !(queryDisplay =~ /\bOR\b/)}">
                 <p><g:message code="list.03.p01" default="No records found for"/> <span
-                        class="queryDisplay">${raw(queryDisplay)}</span></p>
+                        class="queryDisplay"><alatag:clearNameForInstitutionCollection>${raw(queryDisplay)}</alatag:clearNameForInstitutionCollection></span></p>
                 <g:set var="queryTerms" value="${queryDisplay.split(" ")}"/>
                 <g:set var="newQueryStr" value="${queryTerms.join(" OR ").replaceAll("\"","").replaceAll("text:","")}"/>
                 <p><g:message code="list.03.p02" default="Trying search for"/> <a
@@ -180,7 +180,7 @@
             </g:elseif>
             <g:else>
                 <p><g:message code="list.03.p03" default="No records found for"/> <span
-                        class="queryDisplay">${raw(queryDisplay) ?: params.q ?: params.taxa}</span></p>
+                        class="queryDisplay"><alatag:clearNameForInstitutionCollection>${raw(queryDisplay) ?: params.q ?: params.taxa}</alatag:clearNameForInstitutionCollection></span></p>
             </g:else>
         </div>
     </g:elseif>
